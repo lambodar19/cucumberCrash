@@ -14,14 +14,16 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.17</maven.compiler.source>
     <maven.compiler.target>1.17</maven.compiler.target>
+    <cucumber.version>7.14.0</cucumber.version>
+    <maven.compiler.version>3.11.0</maven.compiler.version>
+    <maven.surefire.version>3.2.2</maven.surefire.version>
   </properties>
 
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
+      <version>4.13.2</version>
     </dependency>
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
@@ -31,13 +33,73 @@
     <dependency>
       <groupId>io.cucumber</groupId>
       <artifactId>cucumber-java</artifactId>
-      <version>7.14.0</version>
+      <version>${cucumber.version}</version>
     </dependency>
     <dependency>
       <groupId>io.cucumber</groupId>
       <artifactId>cucumber-testng</artifactId>
-      <version>7.14.0</version>
+      <version>${cucumber.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.cucumber</groupId>
+      <artifactId>cucumber-junit</artifactId>
+      <version>${cucumber.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.github.bonigarcia</groupId>
+      <artifactId>webdrivermanager</artifactId>
+      <version>5.6.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jetbrains</groupId>
+      <artifactId>annotations</artifactId>
+      <version>RELEASE</version>
+      <scope>compile</scope>
     </dependency>
 
   </dependencies>
+
+  <build>
+    <plugins>
+        <!--> Compile your test code and library code -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven.compiler.version}</version>
+        <configuration>
+          <encoding>UTF-8</encoding>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <!--> Run Test Cases in Parallel-->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${maven.surefire.version}</version>
+        <configuration>
+          <includes>
+            <include>**/ParallelRun.java</include>
+          </includes>
+          <parallel>methods</parallel>
+          <threadCount>4</threadCount>
+          <useUnlimitedThreads>false</useUnlimitedThreads>
+        </configuration>
+      </plugin>
+
+      <!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-failsafe-plugin</artifactId>
+          <version>3.0.0-M3</version> <executions> <execution> <goals> <goal>integration-test</goal>
+          </goals> <configuration> UNCOMMENT - To add any exclusions if required <excludes>
+          <exclude>**/*IT*.java</exclude> </excludes> <includes> UNCOMMENT BELOW LINE
+          - To execute feature files with a single runner <include>**/MyTestRunner.java</include>
+          UNCOMMENT BELOW LINE - To execute feature files with multiple runners <include>**/*Runner.java</include>
+          </includes> UNCOMMENT BELOW 3 LINES - To execute using parallel or combination
+          option <parallel>methods</parallel> <threadCount>4</threadCount> <perCoreThreadCount>true</perCoreThreadCount>
+          UNCOMMENT BELOW 3 LINES - To execute using forking or combination option
+          <forkCount>2</forkCount> <reuseForks>true</reuseForks> <reportsDirectory>${project.build.directory}/failsafe-reports_${surefire.forkNumber}</reportsDirectory>
+          </configuration> </execution> </executions> </plugin> -->
+
+
+    </plugins>
+  </build>
 </project>
